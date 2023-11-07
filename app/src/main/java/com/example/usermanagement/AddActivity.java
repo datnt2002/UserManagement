@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,17 +63,19 @@ public class AddActivity extends AppCompatActivity {
         submitAddUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserModel user = new UserModel(-1, nameInput.getText().toString(), Integer.parseInt(ageInput.getText().toString()), emailInput.getText().toString(), avatarBytes);
-
                 DatabaseHelper db = new DatabaseHelper(AddActivity.this);
-                boolean isSuccess = db.addUser(user);
-                if(isSuccess){
-                    //set text
-                    nameInput.setText("");
-                    ageInput.setText("");
-                    emailInput.setText("");
-                    avatar.setImageURI(null); // Clear the displayed image
-                    avatarBytes = null;
+                Boolean isValidate = validateInfo();
+                if (isValidate){
+                    UserModel user = new UserModel(-1, nameInput.getText().toString(), Integer.parseInt(ageInput.getText().toString()), emailInput.getText().toString(), avatarBytes);
+                    boolean isSuccess = db.addUser(user);
+                    if(isSuccess){
+                        //set text
+                        nameInput.setText("");
+                        ageInput.setText("");
+                        emailInput.setText("");
+                        avatar.setImageResource(R.drawable.ic_person);
+                        avatarBytes = null;
+                    }
                 }
             }
         });
@@ -109,6 +112,37 @@ public class AddActivity extends AppCompatActivity {
             // Handle errors from ImagePicker
             Toast.makeText(this, ImagePicker.Companion.getError(data), Toast.LENGTH_SHORT).show();
         }
+    }
 
+
+    private Boolean validateInfo(){
+        if (TextUtils.isEmpty(nameInput.getText().toString())) {
+            nameInput.setError("Please enter name");
+            return false;
+        }
+        if (TextUtils.isEmpty(ageInput.getText().toString())) {
+            ageInput.setError("Please enter age");
+            return false;
+        } else {
+            int age = Integer.parseInt(ageInput.getText().toString());
+            if (age <= 0) {
+                ageInput.setError("Please enter a valid age (greater than 0)");
+                return false;
+            }
+        }
+
+        if (TextUtils.isEmpty(emailInput.getText().toString())) {
+            emailInput.setError("Please enter email");
+            return false;
+        }else {
+            String email = emailInput.getText().toString().trim();
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailInput.setError("Please enter a valid email address");
+                return false;
+            }
+        }
+
+
+        return true;
     }
 }

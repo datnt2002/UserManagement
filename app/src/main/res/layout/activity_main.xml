@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#C0E7EC">
 
     <include layout="@layout/app_bar" />
 
@@ -23,6 +24,7 @@
         android:layout_marginBottom="28dp"
         android:clickable="true"
         android:focusable="true"
+        android:backgroundTint="#00D4BB"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/recyclerView"
         app:srcCompat="@drawable/ic_add" />
