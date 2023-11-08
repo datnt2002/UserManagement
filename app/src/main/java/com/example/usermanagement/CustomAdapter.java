@@ -37,9 +37,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
         UserModel user = userList.get(position);
-
-
-
         // Bind data to the TextViews in your ViewHolder
         holder.idTextView.setText(String.valueOf(user.getId()));
         holder.nameTextView.setText(user.getName());

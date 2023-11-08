@@ -52,9 +52,9 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ImagePicker.with(AddActivity.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .crop()
+                        .compress(1024)
+                        .maxResultSize(1080, 1080)
                         .start();
             }
         });
@@ -66,7 +66,9 @@ public class AddActivity extends AppCompatActivity {
                 DatabaseHelper db = new DatabaseHelper(AddActivity.this);
                 Boolean isValidate = validateInfo();
                 if (isValidate){
-                    UserModel user = new UserModel(-1, nameInput.getText().toString(), Integer.parseInt(ageInput.getText().toString()), emailInput.getText().toString(), avatarBytes);
+                    UserModel user = new UserModel(-1, nameInput.getText().toString(),
+                            Integer.parseInt(ageInput.getText().toString()),
+                            emailInput.getText().toString(), avatarBytes);
                     boolean isSuccess = db.addUser(user);
                     if(isSuccess){
                         //set text
@@ -130,7 +132,6 @@ public class AddActivity extends AppCompatActivity {
                 return false;
             }
         }
-
         if (TextUtils.isEmpty(emailInput.getText().toString())) {
             emailInput.setError("Please enter email");
             return false;
@@ -141,8 +142,6 @@ public class AddActivity extends AppCompatActivity {
                 return false;
             }
         }
-
-
         return true;
     }
 }
